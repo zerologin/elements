@@ -1,0 +1,43 @@
+{
+  "name": "@zerologin/elements",
+  "description": "Zerologin auth web component",
+  "version": "0.0.1-beta",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/zerologin.umd.js",
+  "module": "./dist/zerologin.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/zerologin.umd.js",
+      "require": "./dist/zerologin.es.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerologin/elements.git"
+  },
+  "author": "dolu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zerologin/elements/issues"
+  },
+  "homepage": "https://github.com/zerologin/elements#readme",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ky": "^0.31.3",
+    "qrcode": "^1.5.1",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.0",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0",
+    "vue-tsc": "^0.40.4"
+  }
+}
