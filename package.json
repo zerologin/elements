@@ -1,13 +1,13 @@
 {
   "name": "@zerologin/elements",
   "description": "Zerologin auth web component",
-  "version": "0.0.1-beta",
+  "version": "0.0.2-beta",
   "private": false,
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist/"
   ],
   "main": "./dist/zerologin.umd.js",
   "module": "./dist/zerologin.es.js",
