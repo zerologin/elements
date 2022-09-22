@@ -3,6 +3,9 @@
   "description": "Zerologin auth web component",
   "version": "0.0.1-beta",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist"
   ],
