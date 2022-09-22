@@ -1,7 +1,7 @@
 {
   "name": "@zerologin/elements",
   "description": "Zerologin auth web component",
-  "version": "0.0.2-beta",
+  "version": "0.0.3-beta",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -30,7 +30,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "ky": "^0.31.3",
