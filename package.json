@@ -2,6 +2,7 @@
   "name": "@zerologin/elements",
   "description": "Zerologin auth web component",
   "version": "0.0.1-beta",
+  "private": false,
   "files": [
     "dist"
   ],
