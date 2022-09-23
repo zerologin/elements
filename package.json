@@ -1,7 +1,7 @@
 {
   "name": "@zerologin/elements",
   "description": "Zerologin auth web component",
-  "version": "0.0.3-beta",
+  "version": "0.0.4-beta",
   "private": false,
   "publishConfig": {
     "access": "public"

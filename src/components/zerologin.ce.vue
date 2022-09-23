@@ -4,9 +4,16 @@ import QRCode from "qrcode";
 import ky from "ky";
 
 const emit = defineEmits<{
-  (e: 'success', pubKey: string): void
-  (e: 'error', value: string): void
-}>()
+  (
+    e: "success",
+    {
+      pubkey,
+      jwt,
+      refreshToken,
+    }: { pubkey: string; jwt: string; refreshToken: string }
+  ): void;
+  (e: "error", value: string): void;
+}>();
 
 let props = withDefaults(defineProps<{ url: string; publicId?: string }>(), {
   url: "",
@@ -37,8 +44,6 @@ async function weblnConnect() {
 }
 
 onMounted(() => {
-console.log('hello')
-
   const prefixUrl = props.url.includes("api/internal")
     ? props.url
     : `${props.url}/api/v1`;
@@ -52,7 +57,7 @@ console.log('hello')
   const source = new EventSource(sseUrl);
   source.addEventListener(
     "message",
-    (e) => {
+    async (e) => {
       const parsed = JSON.parse(e.data);
       if (parsed.message === "challenge") {
         lnurl.value = parsed.encoded;
@@ -62,18 +67,20 @@ console.log('hello')
         });
       }
       if (parsed.message === "loggedin") {
-        ky.post(parsed.callback, {
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        })
-          .json()
-          .then((res) => {
-            // @ts-ignore
-            emit("success", res.body);
-          })
-          .catch((err) => {
-            emit("error", err);
-          });
+        try {
+          const result = await ky
+            .post(parsed.callback, {
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+            })
+            .json();
+
+          // @ts-ignore
+          emit("success", result);
+        } catch (error) {
+          // @ts-ignore
+          emit("error", error);
+        }
       }
     },
     false
