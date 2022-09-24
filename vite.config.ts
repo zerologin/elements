@@ -10,6 +10,11 @@ export default defineConfig({
       name: '@zerologin/elements',
       fileName: (format) => `zerologin.${format}.js`,
     },
+    rollupOptions: {
+      external: '~/src/assets/icons/logo.svg'
+    }
   },
-  plugins: [vue({ customElement: true })],
+  plugins: [
+    vue({ customElement: true }),
+  ]
 })
