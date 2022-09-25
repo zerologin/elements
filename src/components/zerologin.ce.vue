@@ -1,22 +1,17 @@
 <template>
   <div class="zerologin">
-    <h1 class="zl-title">Login with lightning⚡️</h1>
+    <h1 class="zl-title">Login with Lightning⚡️</h1>
 
-    <div class="zl-qr-wrapper">
+    <div class="zl-qr-wrapper" @click="clickToConnect()">
       <img src="" class="zl-qr" ref="qrImage" />
     </div>
 
     <div class="zl-scan-text">
-      Scan this code or copy + paste it to your lightning wallet. Or click to
-      login with your browser’s wallet.
+      Scan, click or copy this code to login using your wallet
     </div>
 
     <div class="zl-buttons-action">
-      <button
-        class="zl-button zl-first"
-        @click="weblnConnect()"
-        :disabled="!weblnSupported"
-      >
+      <button class="zl-button zl-first" @click="clickToConnect()">
         Click to connect
         <img src="/src/assets/icons/send-icon.svg" alt="send icon" />
       </button>
@@ -76,14 +71,18 @@ function copy() {
   }, 3000);
 }
 
-async function weblnConnect() {
-  // @ts-ignore
-  await window.webln.enable();
-  try {
+async function clickToConnect() {
+  if (weblnSupported.value) {
     // @ts-ignore
-    await webln.lnurl(lnurl.value);
-  } catch (e) {
-    console.error(e);
+    await window.webln.enable();
+    try {
+      // @ts-ignore
+      await webln.lnurl(lnurl.value);
+    } catch (e) {
+      console.error(e);
+    }
+  } else {
+    window.open(`lightning:${lnurl}`, "_self");
   }
 }
 
@@ -291,6 +290,7 @@ $gray-primary-color-active: mix(
   }
 
   .zl-qr-wrapper {
+    cursor: pointer;
     padding: 20px;
     background-color: $white;
     border-radius: 24px;
@@ -318,6 +318,7 @@ $gray-primary-color-active: mix(
   }
 
   .zl-button {
+    text-decoration: none;
     cursor: pointer;
     color: $white;
     background-color: $violet-primary-color;
