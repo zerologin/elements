@@ -186,22 +186,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 @use "sass:math";
-@import url("https://api.fonts.coollabs.io/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("../fonts/SF-Pro-Display-Regular.otf") format("opentype");
-  font-weight: 700;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("../fonts/SF-Pro-Display-Light.otf") format("opentype");
-  font-weight: 500;
-}
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("../fonts/SF-Pro-Display-Thin.otf") format("opentype");
-  font-weight: 400;
-}
 
 $white: #fff;
 $black: #000;
@@ -239,7 +223,7 @@ $gray-primary-color-active: mix(
 );
 
 .zerologin {
-  font-family: "SF Pro Display";
+  font-family: "Inter", sans-serif;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -270,7 +254,7 @@ $gray-primary-color-active: mix(
   .zl-scan-text {
     font-style: normal;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 14px;
     text-align: justify;
   }
 
