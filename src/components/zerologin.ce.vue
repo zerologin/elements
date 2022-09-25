@@ -82,7 +82,7 @@ async function clickToConnect() {
       console.error(e);
     }
   } else {
-    window.open(`lightning:${lnurl}`, "_self");
+    window.open(`lightning:${lnurl.value}`, "_self");
   }
 }
 
