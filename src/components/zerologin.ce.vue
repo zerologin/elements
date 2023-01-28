@@ -72,6 +72,7 @@ function copy() {
 }
 
 async function clickToConnect() {
+  console.log(lnurl.value);
   if (weblnSupported.value) {
     // @ts-ignore
     await window.webln.enable();
@@ -82,7 +83,11 @@ async function clickToConnect() {
       console.error(e);
     }
   } else {
-    window.open(`lightning:${lnurl.value}`, "_self");
+    let url = lnurl.value;
+    if (!lnurl.value.startsWith("keyauth://")) {
+      url = `lightning:${lnurl.value}`;
+    }
+    window.open(`${url}`, "_self");
   }
 }
 
