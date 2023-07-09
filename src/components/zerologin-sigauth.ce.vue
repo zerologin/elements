@@ -126,7 +126,6 @@ async function loadSigauth() {
   const wsUrl = props.url
     .replace("http://", "ws://")
     .replace("https://", "wss://");
-  const ws = new WebSocket(wsUrl);
 
   const authRequest: { challengeId: string; challenge: string } = await ky
     .get(`${props.url}/api/v2/sigauth?id=${props.publicId}`)
@@ -137,10 +136,16 @@ async function loadSigauth() {
   const logoPromise = getBase64FromImageUrl(logo.value.src);
   await loadQR(logoPromise, authRequest);
 
-  ws.onopen = async () => {
+  const ws = new WebSocket(wsUrl);
+
+  ws.onopen = () => {
     ws.send(
       JSON.stringify({ action: "join", challengeId: authRequest.challengeId })
     );
+  };
+
+  ws.onerror = (err) => {
+    console.log("ws error", err);
   };
 
   ws.onmessage = (event: { data: string }) => {
