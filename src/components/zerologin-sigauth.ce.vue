@@ -19,7 +19,11 @@
         {{ textCopy }}
         <img src="/src/assets/icons/copy-icon.svg" alt="copy icon" />
       </button>
-      <a href="https://github.com/Dolu89/sigauth-specs" target="_blank" class="zl-button zl-outline zl-last">
+      <a
+        href="https://github.com/Dolu89/sigauth-specs"
+        target="_blank"
+        class="zl-button zl-outline zl-last"
+      >
         Learn more about Sigauth
       </a>
     </div>
@@ -124,6 +128,12 @@ async function loadSigauth() {
     .replace("https://", "wss://");
   const ws = new WebSocket(wsUrl);
 
+  ws.onopen = () => {
+    ws.send(
+      JSON.stringify({ action: "join", challengeId: challenge.challengeId })
+    );
+  };
+
   ws.onmessage = (event: { data: string }) => {
     if (event.data.startsWith("remote-peer")) {
       peer = new SimplePeer({
@@ -195,11 +205,6 @@ async function loadSigauth() {
     .json();
 
   sigauth.value = challenge.challenge;
-  console.log(challenge);
-
-  ws.send(
-    JSON.stringify({ action: "join", challengeId: challenge.challengeId })
-  );
 
   const logoPromise = getBase64FromImageUrl(logo.value.src);
   await loadQR(logoPromise, challenge);
