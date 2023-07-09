@@ -106,11 +106,11 @@ async function getBase64FromImageUrl(url: string): Promise<string> {
 
 async function loadQR(
   logoPromise: Promise<string>,
-  challenge: { challengeId: string; challenge: string }
+  authRequest: { challengeId: string; challenge: string }
 ) {
   const logo = await logoPromise;
   const qr = await new AwesomeQR({
-    text: challenge.challenge,
+    text: authRequest.challenge,
     size: 280,
     logoImage: logo,
     whiteMargin: false,
@@ -128,9 +128,18 @@ async function loadSigauth() {
     .replace("https://", "wss://");
   const ws = new WebSocket(wsUrl);
 
-  ws.onopen = () => {
+  const authRequest: { challengeId: string; challenge: string } = await ky
+    .get(`${props.url}/api/v2/sigauth?id=${props.publicId}`)
+    .json();
+
+  sigauth.value = authRequest.challenge;
+
+  const logoPromise = getBase64FromImageUrl(logo.value.src);
+  await loadQR(logoPromise, authRequest);
+
+  ws.onopen = async () => {
     ws.send(
-      JSON.stringify({ action: "join", challengeId: challenge.challengeId })
+      JSON.stringify({ action: "join", challengeId: authRequest.challengeId })
     );
   };
 
@@ -183,7 +192,7 @@ async function loadSigauth() {
           ws.send(
             JSON.stringify({
               action: "offer",
-              challengeId: challenge.challengeId,
+              challengeId: authRequest.challengeId,
               offer: JSON.stringify(data),
             })
           );
@@ -199,15 +208,6 @@ async function loadSigauth() {
       peer.signal(icecandidate);
     }
   };
-
-  const challenge: { challengeId: string; challenge: string } = await ky
-    .get(`${props.url}/api/v2/sigauth?id=${props.publicId}`)
-    .json();
-
-  sigauth.value = challenge.challenge;
-
-  const logoPromise = getBase64FromImageUrl(logo.value.src);
-  await loadQR(logoPromise, challenge);
 }
 
 onMounted(async () => {
